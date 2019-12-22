@@ -8,7 +8,7 @@ int main()
 {
 	setlocale(LC_CTYPE, "Russian");
 	/*......................................................*/
-	TStackList<int> a;
+	TStack<int> a;
 	a.Push(5);
 	cout << 2 * a.Pop() << endl;
 	/*......................................................*/

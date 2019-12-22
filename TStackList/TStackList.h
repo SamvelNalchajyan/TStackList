@@ -8,26 +8,30 @@ struct TNode
 };
 
 template <class T>
-class TStackList
+class TStack
 {
 private:
 	TNode<T>* pFirst;
 public:
-	TStackList();
-	~TStackList();
+	TStack();
+	~TStack();
 
-	void Push(T a);
+	void Push(const T& a);
 	T Pop();
+	T Top();
+	bool IsEmpty();
+	bool IsFull();
+	void Clear();
 };
 
 template <class T>
-TStackList<T>::TStackList()
+TStack<T>::TStack()
 {
 	pFirst = NULL;
 }
 
 template <class T>
-TStackList<T>::~TStackList()
+TStack<T>::~TStack()
 {
 	TNode<T>* tmp = pFirst;
 	while (pFirst != NULL)
@@ -39,8 +43,12 @@ TStackList<T>::~TStackList()
 }
 
 template <class T>
-void TStackList<T>::Push(T a)
+void TStack<T>::Push(const T& a)
 {
+	if (IsFull())
+	{
+		throw 2;
+	}
 	TNode<T>* tmp = new TNode<T>;
 	tmp->val = a;
 	tmp->pNext = pFirst;
@@ -48,9 +56,66 @@ void TStackList<T>::Push(T a)
 }
 
 template <class T>
-T TStackList<T>::Pop()
+T TStack<T>::Pop()
 {
-	T tmp = pFirst->val;
+	if (IsEmpty())
+	{
+		throw 3;
+	}
+	T res = pFirst->val;
+	TNode<T>* tmp = pFirst;
 	pFirst = pFirst->pNext;
+	delete tmp;
+	return res;
+}
+
+template <class T>
+T TStack<T>::Top()
+{
+	if (IsEmpty())
+	{
+		throw 3;
+	}
+	T tmp = pFirst->val;
 	return tmp;
+}
+
+template <class T>
+bool TStack<T>::IsEmpty()
+{
+	if (pFirst != NULL)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+template <class T>
+bool TStack<T>::IsFull()
+{
+	TNode<T>* p = new TNode<T>;
+	if (p)
+	{
+		delete p;
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+template <class T>
+void TStack<T>::Clear()
+{
+	TNode<T>* tmp = pFirst;
+	while (pFirst != NULL)
+	{
+		pFirst = pFirst->pNext;
+		delete tmp;
+		tmp = pFirst;
+	}
 }
